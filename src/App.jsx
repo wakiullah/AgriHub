@@ -14,20 +14,30 @@ import Cart from './Pages/Cart/Cart'
 import NewsLetter from './Pages/Newsletter/NewsLetter'
 import Faq from './Pages/Faq/Faq'
 import Contact from './Pages/Contact/Contact'
+import CreateProduct from './Pages/CreateProduct.jsx/CreateProduct'
+import { useEffect, useState } from 'react'
+import { collection, getDocs, query } from 'firebase/firestore'
+import { db } from './Firebase/Firebase'
+import ProductsPage from './Pages/ProductsPage/ProductsPage'
 function App() {
+
 
   return (
     <BrowserRouter>
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/detail' element={<ProductDetails />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/newsletter' element={<NewsLetter />} />
         <Route path='/faq' element={<Faq />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/add_product' element={<CreateProduct />} />
+        <Route path='/products' element={<ProductsPage />} />
+        <Route path='/products' >
+          <Route path=':priduct_id' element={<ProductDetails />} />
+        </Route>
       </Routes>
       <Footer />
     </BrowserRouter>
