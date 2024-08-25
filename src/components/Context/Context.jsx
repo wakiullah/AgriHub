@@ -23,20 +23,11 @@ const getFetchData = async () => {
 
 
 
-const getDefaultCartDeta = () => {
-    const all_product = getFetchData().then((item) => item)
 
-    let cart = {};
-
-    for (let index = 0; index < all_product.length; index++) {
-        cart[index] = 0;
-    }
-    return cart;
-}
 
 const ShopContextProvider = (props) => {
     const all_product = getFetchData().then((item) => item)
-    const [cartItems, setCartItems] = useState(getDefaultCartDeta())
+    const [cartItems, setCartItems] = useState([])
     const [allData, setAllData] = useState([])
     const [user, setUser] = useState()
     const [productsList, setProductsList] = useState([])
@@ -51,7 +42,8 @@ const ShopContextProvider = (props) => {
     }
 
     const addToCart = (itemId) => {
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] + 1 }))
+        const cartProduct = productsList.find((product) => product.id === itemId)
+        setCartItems((prev) => ([...prev, cartProduct]))
     }
 
     const removeFromCart = (itemId) => {
@@ -63,27 +55,27 @@ const ShopContextProvider = (props) => {
         setAllData(data)
     }
 
-    const getTotalItem = () => {
-        let totalItem = 0;
-        for (const item in cartItems) {
-            if (cartItems[item] > 0) {
+    // const getTotalItem = () => {
+    //     let totalItem = 0;
+    //     for (const item in cartItems) {
+    //         if (cartItems[item] > 0) {
 
-                totalItem += cartItems[item]
-            }
-        }
-        return totalItem;
-    }
+    //             totalItem += cartItems[item]
+    //         }
+    //     }
+    //     return totalItem;
+    // }
 
-    const getTotalCartAmmount = () => {
-        let totalAmmount = 0;
-        for (const item in cartItems) {
-            if (cartItems[item] > 0) {
-                const itemInfo = all_product.find((product) => product.id === Number(item))
-                totalAmmount += itemInfo.new_price * cartItems[item]
-            }
-        }
-        return totalAmmount
-    }
+    // const getTotalCartAmmount = () => {
+    //     let totalAmmount = 0;
+    //     for (const item in cartItems) {
+    //         if (cartItems[item] > 0) {
+    //             const itemInfo = all_product.find((product) => product.id === Number(item))
+    //             totalAmmount += itemInfo.new_price * cartItems[item]
+    //         }
+    //     }
+    //     return totalAmmount
+    // }
 
     const getProductsData = async () => {
         let ab = []
@@ -109,7 +101,7 @@ const ShopContextProvider = (props) => {
     }, [])
 
 
-    const contextValue = { getTotalCartAmmount, productsList, logOutContext, user, loginContext, allData, getProductData, getTotalItem, all_product, cartItems, addToCart, removeFromCart }
+    const contextValue = { productsList, logOutContext, user, loginContext, allData, getProductData, all_product, cartItems, addToCart, removeFromCart }
     // console.log(cartItems);
     return (
         <ShopContext.Provider value={contextValue}>

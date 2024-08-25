@@ -4,8 +4,8 @@ import { ShopContext } from '../Context/Context'
 
 export default function Header() {
     const { user, logOutContext } = useContext(ShopContext)
+    console.log('loaded');
 
-    console.log(user);
     const logoutHandler = async () => {
         try {
             await logOutContext()

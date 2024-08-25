@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import InputButton from '../../components/SmallComponents/Button'
+import { ShopContext } from '../../components/Context/Context'
 
 export default function Cart() {
+    const { cartItems } = useContext(ShopContext)
+    console.log(cartItems);
+
     return (
         <section className='mb-10 '>
             <h2 className=' text-center mt-28 mb-10 font-bold text-2xl text-custom-primary'>Cart</h2>
@@ -11,49 +15,51 @@ export default function Cart() {
 
                     <tbody>
                         {/* row 1 */}
-                        <tr>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle h- w-12">
-                                            <img
-                                                src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                                                alt="Avatar Tailwind CSS Component" />
+                        {cartItems.map((item, i) => {
+                            return <tr key={i}>
+                                <td>
+                                    <div className="flex items-center gap-3">
+                                        <div className="avatar">
+                                            <div className="mask mask-squircle h- w-12">
+                                                <img
+                                                    src={item.link}
+                                                    alt="Avatar Tailwind CSS Component" />
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div className="font-bold">{item.name}</div>
+                                            <div className="text-sm opacity-50">{item.discountPrice}</div>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div className="font-bold">Hart Hagerty</div>
-                                        <div className="text-sm opacity-50">$300</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <select className="select  select-primary w-20 block max-w-xs">
-                                    <option >1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </td>
-                            <td>$400</td>
-                            <th>
-                                <button className="btn btn-square btn-outline">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </th>
-                        </tr>
+                                </td>
+                                <td>
+                                    <select className="select  select-primary w-20 block max-w-xs">
+                                        <option >1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                    </select>
+                                </td>
+                                <td>$400</td>
+                                <th>
+                                    <button className="btn btn-square btn-outline">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor">
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </th>
+                            </tr>
+                        })}
                         <tr>
                             <td>
                                 <div className="flex items-center gap-3">

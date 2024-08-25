@@ -55,27 +55,9 @@ function App() {
 
 
 
-  // const [useLogin, setUserLogin] = useState(null);
-  // useEffect(() => {
-  //   onAuthStateChanged(auth, (usr) => {
-  //     if (usr) {
-  //       const uid = usr.uid
-  //       setAuthID(uid)
-  //       console.log(useLogin);
-
-  //     } else {
-  //       console.log('logout');
-
-  //     }
-  //   })
-
-  // }, [])
-
-
-
   return (
     <BrowserRouter>
-      <Header isLoggedIn />
+      <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />

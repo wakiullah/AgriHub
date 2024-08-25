@@ -1,12 +1,14 @@
 import React, { useContext } from 'react'
 import { ShopContext } from '../components/Context/Context'
-import { useNavigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 
 export default function ProtectedRoutes({ children }) {
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const { user } = useContext(ShopContext)
-    if (!user) {
-        return navigate('/')
+    if (user) {
+        return children
+
+    } else {
+        return <Navigate to={'/login'} replace={true} />
     }
-    return children;
 }

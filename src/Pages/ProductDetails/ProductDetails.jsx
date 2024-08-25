@@ -1,18 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import Products from '../../components/Products.jsx/Products'
-import InputButton from '../../components/SmallComponents/Button'
 import { useParams } from 'react-router-dom'
-import { collection, getDocs, query } from 'firebase/firestore'
-import { db } from '../../Firebase/Firebase'
 import { ShopContext } from '../../components/Context/Context'
 import { BreadcrumbSec } from '../../components/BreadCrumb/BreadCrumb'
 
 export default function ProductDetails() {
-    const { all_product } = useContext(ShopContext)
+    const { addToCart } = useContext(ShopContext)
     const { priduct_id } = useParams()
     const { productsList } = useContext(ShopContext)
     const mainProduct = productsList.find(e => e.id === priduct_id)
 
+    const addToCartHandler = () => {
+        addToCart(mainProduct.id)
+    }
 
 
     return (
@@ -37,7 +37,7 @@ export default function ProductDetails() {
                         <p className='rounded border px-2 py-1'>Large</p>
                         <p className='rounded border px-2 py-1'>Upper</p>
                     </div>
-                    <InputButton text={"Add to Cart!"} />
+                    <button onClick={addToCartHandler} className='w-full bg-custom-primary hover:bg-custom-primary-dark px-2 py-3 rounded cursor-pointer text-white text-xl'>Add To Cart </button>
                 </div>
                 <div>
                     <img className='rounded-lg w-full pr-8' src={mainProduct.link} alt="" />
