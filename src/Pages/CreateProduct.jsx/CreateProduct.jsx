@@ -1,7 +1,7 @@
 import { doc, setDoc } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { db } from '../../Firebase/Firebase'
-import { Await } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function CreateProduct() {
     const [productName, setProductName] = useState('')
@@ -10,7 +10,7 @@ export default function CreateProduct() {
     const [productCategory, setProductCategory] = useState('')
     const [productDes, setProductDes] = useState('')
     const [productLink, setProductLink] = useState('')
-
+    const navigate = useNavigate()
 
     const addProductHandler = async (e) => {
         e.preventDefault()
@@ -26,6 +26,8 @@ export default function CreateProduct() {
                 id: productName.replace(/\s/g, '').toLowerCase()
             })
             console.log('done');
+            navigate('/')
+
 
         } else {
             console.log('error');

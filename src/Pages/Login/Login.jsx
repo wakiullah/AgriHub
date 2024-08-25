@@ -1,14 +1,16 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Input from '../../components/SmallComponents/Input'
 import InputButton from '../../components/SmallComponents/Button'
-import { Link } from 'react-router-dom'
+import { Link, redirect, useNavigate } from 'react-router-dom'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../../Firebase/Firebase'
+import { ShopContext } from '../../components/Context/Context'
 
 
 
 export default function Login() {
-
+    const { loginContext } = useContext(ShopContext)
+    const navigate = useNavigate()
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
 
@@ -21,19 +23,16 @@ export default function Login() {
 
     const loginHandler = async (e) => {
         e.preventDefault()
-        if (email === "" || password === "") {
-            return;
-        };
-        try {
-            const userLogin = await signInWithEmailAndPassword(auth, email, password)
-            console.log(userLogin);
-            window.localStorage.setItem('isLoggedIn', 'true')
-            window.localStorage.setItem('email', email)
-        } catch (error) {
-            console.log(error);
+        if (email !== '' && password !== '') {
+            try {
+                await loginContext(email, password)
+                navigate('/')
 
+            } catch (error) {
+                console.log(error);
+
+            }
         }
-
     }
 
     return (

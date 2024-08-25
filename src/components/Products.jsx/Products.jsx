@@ -1,34 +1,15 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ProductItem from '../ProductItem/ProductItem'
 import { collection, getDocs, query } from 'firebase/firestore'
 import { db } from '../../Firebase/Firebase'
 import fetchProductsData from '../fetchData'
+import { ShopContext } from '../Context/Context'
+import ProductDetails from './../../Pages/ProductDetails/ProductDetails';
 
-export default function Products({ products }) {
+export default function Products() {
 
-    // const datas = fetchProductsData();
-
-
-    const [productsList, setProductsList] = useState([])
-
-    const getFetchData = async () => {
-        let ab = []
-        const docs = query(collection(db, 'products'))
-        const docRef = await getDocs(docs)
-        docRef.forEach((doc) => {
-            // setProductsList(...productsList, doc.data())
-            ab.push(doc.data())
-        })
-        setProductsList(ab)
-    }
-
-    useEffect(() => {
-        getFetchData()
-
-    }, [])
-
-
+    const { productsList } = useContext(ShopContext)
 
     return (
         <div className='w-full px-4 pt-3.5  pb-16 lg:p-6 xl:p-8'>
