@@ -98,7 +98,7 @@ const ShopContextProvider = (props) => {
     }, [])
 
 
-    const contextValue = { productsList, logOutContext, totalTk, getTotalAmmount, totalCartItem, cartCount, user, loginContext, allData, getProductData, cartItems, addToCart, removeFromCart }
+    const contextValue = { productsList, user, logOutContext, totalTk, getTotalAmmount, totalCartItem, cartCount, loginContext, allData, getProductData, cartItems, addToCart, removeFromCart }
     // console.log(cartItems);
     return (
         <ShopContext.Provider value={contextValue}>

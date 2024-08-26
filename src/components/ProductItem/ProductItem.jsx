@@ -6,8 +6,12 @@ import toast from 'react-hot-toast';
 
 export default function ProductItem({ name, img, price, discountPrice, category, id }) {
     let discount = Math.floor(((price - discountPrice) / price) * 100)
-    const { mainProduct, addToCart } = useContext(ShopContext)
+    const { mainProduct, addToCart, user } = useContext(ShopContext)
     const addToCartHandler = () => {
+        if (!user) {
+            toast.error('Login First!')
+            return
+        }
         addToCart(id)
         toast.success('Product Added!')
     }
