@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { auth, db } from '../../Firebase/Firebase'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
 import { doc, setDoc } from 'firebase/firestore'
+import RedAlert from '../../components/Alert/RedAlert'
 
 
 
@@ -12,20 +13,27 @@ export default function SignUp() {
     const [name, setName] = useState('')
     const [password, setPassword] = useState('')
     const [email, setEmail] = useState('')
+    const [error, setError] = useState(true)
 
+    
     const nameChangeHandler = (text) => {
+        setError(false)
         setName(text)
     }
     const emailChangeHandler = (text) => {
+        setError(false)
         setEmail(text)
     }
     const passwordChangeHandler = (text) => {
+        setError(false)
         setPassword(text)
     }
 
     const SignUpHandler = async (e) => {
         e.preventDefault()
+        setError(false)
         if (name === '' || email === "" || password === "") {
+            setError(true)
             return;
         };
 
@@ -40,10 +48,8 @@ export default function SignUp() {
                 })
 
             }
-
-
         } catch (error) {
-            console.log('error');
+            setError(true)
 
         }
 
@@ -58,6 +64,7 @@ export default function SignUp() {
 
                 <div>
                     <h2 className='text-2xl font-bold text-center  mb-8 text-custom-primary'>SignUp</h2>
+                    {error && <RedAlert />}
                     <form action="" onSubmit={SignUpHandler}>
                         <span className='mb-1 block ml-2 font-bold'>Name</span>
                         <Input type="text" value={name} onChange={nameChangeHandler} placeholder={'Enter Your Name'} border={'primary'} />

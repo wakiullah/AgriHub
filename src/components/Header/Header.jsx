@@ -3,9 +3,14 @@ import { Link } from 'react-router-dom'
 import { ShopContext } from '../Context/Context'
 
 export default function Header() {
-    const { user, logOutContext } = useContext(ShopContext)
-    console.log('loaded');
+    const { user, logOutContext, totalCartItem } = useContext(ShopContext)
 
+    const [totalitems, setTotalItems] = useState(0)
+
+    if (totalCartItem) {
+        setTotalItems(totalCartItem.map(e => console.log(e)
+        ))
+    }
     const logoutHandler = async () => {
         try {
             await logOutContext()

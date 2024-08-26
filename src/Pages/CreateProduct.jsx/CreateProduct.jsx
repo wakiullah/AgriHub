@@ -2,6 +2,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import React, { useState } from 'react'
 import { db } from '../../Firebase/Firebase'
 import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast';
 
 export default function CreateProduct() {
     const [productName, setProductName] = useState('')
@@ -25,12 +26,12 @@ export default function CreateProduct() {
                 discountPrice: productDiscountPrice,
                 id: productName.replace(/\s/g, '').toLowerCase()
             })
-            console.log('done');
-            navigate('/')
+
+            toast.success('Product Add Successful!')
 
 
         } else {
-            console.log('error');
+            toast.error('Prodcut Add Faild!')
 
         }
 

@@ -8,33 +8,29 @@ import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebas
 
 export const ShopContext = createContext(null)
 
-const getFetchData = async () => {
-    let ab = []
-    const docs = query(collection(db, 'products'))
-    const docRef = await getDocs(docs)
-    docRef.forEach((doc) => {
-        // setProductsList(...productsList, doc.data())
-        ab.push(doc.data())
-    })
-    // console.log(ab);
 
-    return ab;
+const getDefaultCartDeta = () => {
+    let cart = {};
+
+    for (let index = 0; index < all_product.length; index++) {
+        cart[index] = 0;
+    }
+    // console.log(cart);
+
+    return cart;
 }
 
 
-
-
-
 const ShopContextProvider = (props) => {
-    const all_product = getFetchData().then((item) => item)
     const [cartItems, setCartItems] = useState([])
     const [allData, setAllData] = useState([])
     const [user, setUser] = useState()
     const [productsList, setProductsList] = useState([])
-
+    const [cartCount, setCartCount] = useState([])
+    const [totalCartItem, setTotalCartItem] = useState(0)
+    const [totalTk, setTotalTk] = useState(0)
     const loginContext = (email, password) => {
         signInWithEmailAndPassword(auth, email, password)
-        console.log('done');
     }
 
     const logOutContext = () => {
@@ -42,40 +38,36 @@ const ShopContextProvider = (props) => {
     }
 
     const addToCart = (itemId) => {
-        const cartProduct = productsList.find((product) => product.id === itemId)
-        setCartItems((prev) => ([...prev, cartProduct]))
-    }
-
-    const removeFromCart = (itemId) => {
-        console.log(itemId);
-        setCartItems((prev) => ({ ...prev, [itemId]: prev[itemId] - 1 }))
+        if (cartItems.find((e) => e.id === itemId)) {
+            return
+        } else {
+            const cartProduct = productsList.find((product) => product.id === itemId)
+            setCartItems((prev) => ([...prev, cartProduct]))
+            setTotalTk(totalTk + Number(cartProduct.discountPrice))
+        }
     }
     const getProductData = (data) => {
         console.log(data);
         setAllData(data)
     }
 
-    // const getTotalItem = () => {
-    //     let totalItem = 0;
-    //     for (const item in cartItems) {
-    //         if (cartItems[item] > 0) {
+    const getTotalAmmount = () => {
+        let tk = 0
+        cartItems.map(e => tk += Number(e.discountPrice))
+        setTotalTk(tk)
+        console.log(tk);
 
-    //             totalItem += cartItems[item]
-    //         }
-    //     }
-    //     return totalItem;
-    // }
+    }
 
-    // const getTotalCartAmmount = () => {
-    //     let totalAmmount = 0;
-    //     for (const item in cartItems) {
-    //         if (cartItems[item] > 0) {
-    //             const itemInfo = all_product.find((product) => product.id === Number(item))
-    //             totalAmmount += itemInfo.new_price * cartItems[item]
-    //         }
-    //     }
-    //     return totalAmmount
-    // }
+    const removeFromCart = (itemId) => {
+        let updatedcartitems = cartItems.filter(item => item.id !== itemId)
+        const cartProduct = productsList.find((product) => product.id === itemId)
+        setCartItems(updatedcartitems)
+        setTotalTk(totalTk - Number(cartProduct.discountPrice))
+
+    }
+
+
 
     const getProductsData = async () => {
         let ab = []
@@ -87,8 +79,13 @@ const ShopContextProvider = (props) => {
         })
         setProductsList(ab)
     }
+
+
+
+
     useEffect(() => {
         getProductsData()
+        getTotalAmmount()
 
     }, [])
 
@@ -101,7 +98,7 @@ const ShopContextProvider = (props) => {
     }, [])
 
 
-    const contextValue = { productsList, logOutContext, user, loginContext, allData, getProductData, all_product, cartItems, addToCart, removeFromCart }
+    const contextValue = { productsList, logOutContext, totalTk, getTotalAmmount, totalCartItem, cartCount, user, loginContext, allData, getProductData, cartItems, addToCart, removeFromCart }
     // console.log(cartItems);
     return (
         <ShopContext.Provider value={contextValue}>

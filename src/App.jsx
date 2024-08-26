@@ -1,9 +1,6 @@
 
 import './App.css'
 import Header from './components/Header/Header'
-import Hero from './components/Hero/Hero'
-import Offer from './components/Offers/Offer'
-import Products from './components/Products.jsx/Products'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './Pages/Home/Home'
 import ProductDetails from './Pages/ProductDetails/ProductDetails'
@@ -15,13 +12,12 @@ import NewsLetter from './Pages/Newsletter/NewsLetter'
 import Faq from './Pages/Faq/Faq'
 import Contact from './Pages/Contact/Contact'
 import CreateProduct from './Pages/CreateProduct.jsx/CreateProduct'
-import { useContext, useEffect, useState } from 'react'
-import { collection, getDocs, query } from 'firebase/firestore'
-import { auth, db } from './Firebase/Firebase'
+import { useEffect, useState } from 'react'
+import { auth } from './Firebase/Firebase'
 import ProductsPage from './Pages/ProductsPage/ProductsPage'
-import { onAuthStateChanged } from 'firebase/auth'
 import ProtectedRoutes from './Pages/ProtectedRoutes'
-
+import ScrollToTop from './components/ScrollToTop'
+import { Toaster } from 'react-hot-toast';
 
 function App() {
 
@@ -57,6 +53,8 @@ function App() {
 
   return (
     <BrowserRouter>
+      <ScrollToTop />
+      <Toaster />
       <Header />
       <Routes>
         <Route path='/' element={<Home />} />

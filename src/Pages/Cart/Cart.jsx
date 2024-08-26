@@ -1,10 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import InputButton from '../../components/SmallComponents/Button'
 import { ShopContext } from '../../components/Context/Context'
+import toast from 'react-hot-toast';
 
 export default function Cart() {
-    const { cartItems } = useContext(ShopContext)
-    console.log(cartItems);
+    const { cartItems, totalTk, removeFromCart } = useContext(ShopContext)
+
+    const orderHandler = () => {
+        toast.success('Order Complete!')
+    }
 
     return (
         <section className='mb-10 '>
@@ -16,6 +20,7 @@ export default function Cart() {
                     <tbody>
                         {/* row 1 */}
                         {cartItems.map((item, i) => {
+                            // setItemPrice(itemPrice + item.discountPrice)
                             return <tr key={i}>
                                 <td>
                                     <div className="flex items-center gap-3">
@@ -28,22 +33,13 @@ export default function Cart() {
                                         </div>
                                         <div>
                                             <div className="font-bold">{item.name}</div>
-                                            <div className="text-sm opacity-50">{item.discountPrice}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td>
-                                    <select className="select  select-primary w-20 block max-w-xs">
-                                        <option >1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                        <option>5</option>
-                                    </select>
-                                </td>
-                                <td>$400</td>
+
+                                <td>{item.discountPrice}</td>
                                 <th>
-                                    <button className="btn btn-square btn-outline">
+                                    <button onClick={() => removeFromCart(item.id)} className="btn btn-square btn-outline">
                                         <svg
                                             xmlns="http://www.w3.org/2000/svg"
                                             className="h-6 w-6"
@@ -60,51 +56,10 @@ export default function Cart() {
                                 </th>
                             </tr>
                         })}
-                        <tr>
-                            <td>
-                                <div className="flex items-center gap-3">
-                                    <div className="avatar">
-                                        <div className="mask mask-squircle h-12 w-12">
-                                            <img
-                                                src="https://img.daisyui.com/images/profile/demo/2@94.webp"
-                                                alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="font-bold">Hart Hagerty</div>
-                                        <div className="text-sm opacity-50">$300</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <select className="select  select-primary w-20 block max-w-xs">
-                                    <option >1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </select>
-                            </td>
-                            <td>$400</td>
-                            <th>
-                                <button className="btn btn-square btn-outline">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-6 w-6"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                            strokeWidth="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </th>
-                        </tr>
+
                     </tbody>
-                    {/* foot */}
+                    {cartItems.length === 0 && <h2 className='text-2xl text-center mt-8'> Please Add to Cart!</h2>}
+
 
                 </table>
 
@@ -123,26 +78,27 @@ export default function Cart() {
                                     {/* row 1 */}
                                     <tr>
                                         <td>Subtotal</td>
-                                        <td>$454</td>
+                                        <td>{`৳${totalTk}`}</td>
                                     </tr>
                                     {/* row 2 */}
                                     <tr>
                                         <td>Shipping estimate
                                         </td>
-                                        <td>$5.00</td>
+                                        <td>$free</td>
                                     </tr>
                                     <tr>
                                         <td>Tax estimate
                                         </td>
-                                        <td>$5.00</td>
+                                        <td>$0.00</td>
                                     </tr>
                                     <tr className='text-xl'>
                                         <td>Order total </td>
-                                        <td>$112.32</td>
+                                        <td>{`৳ ${totalTk}`}</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <InputButton text={'Order'} />
+                            <input onClick={orderHandler} className='w-full bg-custom-primary hover:bg-custom-primary-dark px-2 py-3 rounded cursor-pointer text-white text-xl' type={'button'} value={"Order Now!"} />
+
                         </form>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import Products from '../../components/Products.jsx/Products'
 import { useParams } from 'react-router-dom'
 import { ShopContext } from '../../components/Context/Context'
 import { BreadcrumbSec } from '../../components/BreadCrumb/BreadCrumb'
+import toast from 'react-hot-toast';
 
 export default function ProductDetails() {
     const { addToCart } = useContext(ShopContext)
@@ -12,6 +13,7 @@ export default function ProductDetails() {
 
     const addToCartHandler = () => {
         addToCart(mainProduct.id)
+        toast.success('Product Added!')
     }
 
 
